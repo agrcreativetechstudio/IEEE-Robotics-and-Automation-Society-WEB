@@ -66,23 +66,73 @@ document.addEventListener('DOMContentLoaded', () => {
     showPage(initialPage);
 });
 
-// Mobile menu toggle
+// Mobile Navigation System
 const menuToggle = document.getElementById('menuToggle');
-const topNavMenu = document.querySelector('.top-nav-menu');
+const topMenuToggle = document.getElementById('topMenuToggle');
+const mobileNavMenu = document.getElementById('mobileNavMenu');
+const mobileNavOverlay = document.getElementById('mobileNavOverlay');
 
-if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
-        topNavMenu.classList.toggle('active');
-    });
+// Toggle mobile menu
+function toggleMobileMenu() {
+    if (menuToggle) menuToggle.classList.toggle('active');
+    if (topMenuToggle) topMenuToggle.classList.toggle('active');
+    mobileNavMenu.classList.toggle('active');
+    mobileNavOverlay.classList.toggle('active');
+
+    // Prevent body scroll when menu is open
+    if (mobileNavMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
 }
 
-// Close mobile menu when clicking a link
+// Close mobile menu
+function closeMobileMenu() {
+    if (menuToggle) menuToggle.classList.remove('active');
+    if (topMenuToggle) topMenuToggle.classList.remove('active');
+    mobileNavMenu.classList.remove('active');
+    mobileNavOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Menu toggle button clicks
+if (menuToggle) {
+    menuToggle.addEventListener('click', toggleMobileMenu);
+}
+
+if (topMenuToggle) {
+    topMenuToggle.addEventListener('click', toggleMobileMenu);
+}
+
+// Overlay click to close menu
+if (mobileNavOverlay) {
+    mobileNavOverlay.addEventListener('click', closeMobileMenu);
+}
+
+// Close mobile menu when clicking a link (for both desktop and mobile nav)
 document.querySelectorAll('.nav-page-link').forEach(link => {
     link.addEventListener('click', () => {
-        if (topNavMenu) {
-            topNavMenu.classList.remove('active');
-        }
+        closeMobileMenu();
     });
+});
+
+// Close menu on window resize (if resizing to desktop)
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        if (window.innerWidth > 768) {
+            closeMobileMenu();
+        }
+    }, 250);
+});
+
+// Close menu on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNavMenu.classList.contains('active')) {
+        closeMobileMenu();
+    }
 });
 
 // Contact form submission

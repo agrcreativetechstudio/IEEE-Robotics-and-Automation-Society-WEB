@@ -65,6 +65,47 @@ body {
     font-weight: 600;
 }
 
+/* Top Navigation Hamburger Menu */
+.top-nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.top-nav-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.top-nav-toggle span {
+    width: 28px;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.top-nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+    background: #fff;
+}
+
+.top-nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.top-nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+    background: #fff;
+}
+
 /* ===== Main Header ===== */
 .main-header {
     background-color: #fff;
@@ -130,15 +171,86 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
+    z-index: 1001;
+    position: relative;
 }
 
 .menu-toggle span {
-    width: 25px;
+    width: 28px;
     height: 3px;
     background: #333;
     border-radius: 2px;
     transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Mobile Navigation Menu */
+.mobile-nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+    transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1000;
+    padding: 80px 2rem 2rem;
+    overflow-y: auto;
+}
+
+.mobile-nav-menu.active {
+    right: 0;
+}
+
+.mobile-nav-menu .nav-page-link {
+    display: block;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.mobile-nav-menu .nav-page-link:hover,
+.mobile-nav-menu .nav-page-link.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-left-color: #ff9800;
+    transform: translateX(5px);
+}
+
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.mobile-nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 .ieee-banner {
@@ -1219,21 +1331,48 @@ body {
 
 
 /* ===== Responsive Design ===== */
+
+/* Large Tablets & Small Desktops */
 @media (max-width: 1024px) {
     .top-nav-menu {
         gap: 1.5rem;
     }
 
+    .top-nav-menu a {
+        font-size: 0.8rem;
+    }
+
     .contact-layout {
         grid-template-columns: 1fr;
     }
+
+    .section-container {
+        max-width: 95%;
+    }
+
+    .event-day-section {
+        padding: 2rem;
+    }
 }
 
+/* Tablets */
 @media (max-width: 768px) {
+
+    /* Hide desktop navigation, show mobile menu */
     .top-nav-menu {
         display: none;
     }
 
+    /* Show hamburger menu in top nav */
+    .top-nav-toggle {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Header adjustments */
     .header-container {
         padding: 1rem;
     }
@@ -1250,22 +1389,48 @@ body {
         height: 70px;
     }
 
-    .menu-toggle {
-        display: flex;
+    .ieee-banner {
+        padding: 1.25rem 1rem;
     }
 
     .ieee-banner h1 {
         font-size: 1.5rem;
+        line-height: 1.3;
+    }
+
+    /* Content sections */
+    .content-section {
+        padding: 3rem 1.5rem;
     }
 
     .section-title {
         font-size: 2rem;
     }
 
-    .content-section {
-        padding: 3rem 1rem;
+    .section-intro {
+        font-size: 1rem;
+        margin-bottom: 2rem;
     }
 
+    .section-subtitle {
+        font-size: 1.5rem;
+    }
+
+    /* Info grid & cards */
+    .info-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .info-card {
+        padding: 1.5rem;
+    }
+
+    .info-card:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+
+    /* Events */
     .event-item {
         flex-direction: column;
     }
@@ -1275,6 +1440,69 @@ body {
         padding: 1rem;
     }
 
+    .event-day-section {
+        padding: 2rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .event-day-heading {
+        font-size: 1.75rem;
+    }
+
+    .event-day-title {
+        font-size: 1.4rem;
+    }
+
+    .event-day-description {
+        font-size: 0.95rem;
+        text-align: left;
+    }
+
+    /* Gallery */
+    .gallery-header {
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .movie-reel-icon {
+        width: 70px;
+    }
+
+    .gallery-title {
+        font-size: 1.4rem;
+    }
+
+    .event-images-gallery {
+        padding: 2.5rem 1rem;
+        gap: 1rem;
+    }
+
+    .event-images-gallery img {
+        min-width: 300px;
+        height: 240px;
+    }
+
+    .carousel-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.75rem;
+    }
+
+    .carousel-btn-left {
+        left: -20px;
+    }
+
+    .carousel-btn-right {
+        right: -20px;
+    }
+
+    /* Contact section */
+    .contact-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Grids */
     .benefits-grid {
         grid-template-columns: 1fr;
     }
@@ -1287,98 +1515,481 @@ body {
         grid-template-columns: 1fr;
     }
 
+    /* Footer */
     .footer-content {
         grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .footer-logo {
+        justify-content: center;
     }
 
     .footer-bottom {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: 1.5rem;
     }
 
     .footer-bottom-left,
     .footer-bottom-right {
         align-items: center;
+        width: 100%;
     }
 
-    .footer-bottom-right {
-        align-items: center;
+    .footer-powered-by {
+        width: 100%;
+        max-width: 300px;
     }
 
     .footer-links {
         justify-content: center;
+        font-size: 0.75rem;
+    }
+
+    .footer-social-icons {
+        justify-content: center;
     }
 }
 
-@media (max-width: 480px) {
+/* Small Tablets & Large Phones */
+@media (max-width: 640px) {
+
+    /* Top navigation */
     .top-nav-container {
         padding: 0.5rem 1rem;
     }
 
-    .breadcrumb {
-        padding: 0.5rem 1rem;
+    .top-nav-highlight {
+        font-size: 0.8rem;
     }
 
+    /* Breadcrumb */
+    .breadcrumb {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    /* Header */
+    .header-container {
+        padding: 0.75rem;
+    }
+
+    .college-logo-img {
+        height: 45px;
+    }
+
+    .ieee-logo-img {
+        height: 65px;
+    }
+
+    /* Banner */
     .ieee-banner {
-        padding: 1rem;
+        padding: 1rem 0.75rem;
+    }
+
+    .ieee-banner h1 {
+        font-size: 1.3rem;
+    }
+
+    /* Content */
+    .content-section {
+        padding: 2.5rem 1rem;
     }
 
     .section-title {
-        font-size: 1.75rem;
+        font-size: 1.85rem;
     }
 
+    .section-intro {
+        font-size: 0.95rem;
+    }
+
+    /* Member images */
+    .member-image {
+        height: 220px;
+    }
+
+    /* Event sections */
+    .event-day-section {
+        padding: 1.5rem 1rem;
+    }
+
+    .event-day-section::before,
+    .event-day-section::after {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Gallery */
+    .event-images-gallery img {
+        min-width: 280px;
+        height: 220px;
+    }
+
+    /* Contact cards */
+    .contact-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .contact-card-content {
+        min-height: 60px;
+    }
+
+    /* Social buttons */
+    .social-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+
+    /* Top navigation */
+    .top-nav-container {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .top-nav-highlight {
+        font-size: 0.75rem;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        padding: 0.5rem 0.75rem;
+    }
+
+    /* Header */
+    .header-container {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .college-logo-img {
+        height: 40px;
+    }
+
+    .ieee-logo-img {
+        height: 60px;
+    }
+
+    .header-right {
+        gap: 1rem;
+    }
+
+    /* Banner */
+    .ieee-banner {
+        padding: 1rem 0.75rem;
+    }
+
+    .ieee-banner h1 {
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+
+    /* Content */
+    .content-section {
+        padding: 2rem 0.75rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .section-divider {
+        width: 60px;
+        height: 3px;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-intro {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.3rem;
+        margin: 1.5rem auto 0.75rem;
+    }
+
+    /* Info grid */
     .info-grid {
         grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-top: 2rem;
     }
 
-    /* Carousel responsive styles */
+    .info-card {
+        padding: 1.25rem;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px) scale(1.01);
+    }
+
+    .member-image {
+        height: 200px;
+    }
+
+    .member-name {
+        font-size: 1.1rem;
+    }
+
+    /* Events */
+    .event-day-section {
+        padding: 1.25rem 0.75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .event-day-section::before,
+    .event-day-section::after {
+        width: 50px;
+        height: 50px;
+        border-width: 3px;
+    }
+
+    .event-day-heading {
+        font-size: 1.5rem;
+        letter-spacing: 1.5px;
+    }
+
+    .event-day-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .event-day-description {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+    }
+
+    /* Gallery */
+    .gallery-header {
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
     .movie-reel-icon {
-        width: 60px;
+        width: 50px;
     }
 
     .gallery-title {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+
+    .carousel-container {
+        margin-bottom: 2rem;
     }
 
     .event-images-gallery {
         padding: 2rem 0.5rem;
+        gap: 1rem;
     }
 
     .event-images-gallery img {
-        min-width: 250px;
-        height: 200px;
+        min-width: 240px;
+        height: 190px;
+        padding: 15px 8px;
+        border-top-width: 12px;
+        border-bottom-width: 12px;
     }
 
     .carousel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
+        width: 38px;
+        height: 38px;
+        font-size: 1.4rem;
     }
 
     .carousel-btn-left {
-        left: -15px;
+        left: -12px;
     }
 
     .carousel-btn-right {
-        right: -15px;
+        right: -12px;
     }
 
-    /* Contact cards responsive */
+    /* Contact section */
     .contact-cards-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1.25rem;
     }
 
     .contact-card {
-        padding: 2rem;
+        padding: 1.75rem 1.25rem;
     }
 
     .contact-card-icon {
-        font-size: 3rem;
+        font-size: 2.75rem;
+        margin-bottom: 1rem;
     }
 
     .contact-card-title {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .contact-card-content {
+        font-size: 0.9rem;
+        min-height: 50px;
+        margin-bottom: 1.25rem;
+    }
+
+    .contact-card-button {
+        padding: 0.65rem 1.75rem;
+        font-size: 0.85rem;
+    }
+
+    .social-buttons {
+        gap: 0.75rem;
+    }
+
+    .social-button {
+        padding: 0.7rem 1rem;
+        font-size: 0.8rem;
+        gap: 0.5rem;
+    }
+
+    .social-icon {
+        font-size: 1.1rem;
+    }
+
+    /* Footer */
+    .main-footer {
+        padding: 2rem 0.75rem 1rem;
+    }
+
+    .footer-content {
+        gap: 1.5rem;
+    }
+
+    .footer-section h3,
+    .footer-chapter-name {
+        font-size: 1rem;
+    }
+
+    .footer-section p {
+        font-size: 0.85rem;
+    }
+
+    .footer-section ul li a {
+        font-size: 0.85rem;
+    }
+
+    .footer-ieee-logo {
+        height: 50px;
+    }
+
+    .footer-bottom {
+        padding-top: 1.25rem;
+        gap: 1.25rem;
+    }
+
+    .footer-social-icons {
+        gap: 0.5rem;
+    }
+
+    .footer-social-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .footer-social-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .footer-powered-by {
+        padding: 0.875rem 1rem;
+        max-width: 280px;
+    }
+
+    .powered-by-text {
+        font-size: 0.65rem;
+    }
+
+    .studio-name {
+        font-size: 0.8rem;
+    }
+
+    .studio-email {
+        font-size: 0.7rem;
+    }
+
+    .footer-links {
+        font-size: 0.7rem;
+        gap: 0.25rem;
+    }
+
+    .footer-copyright {
+        font-size: 0.8rem;
+    }
+}
+
+/* Very Small Phones */
+@media (max-width: 360px) {
+    .top-nav-highlight {
+        font-size: 0.7rem;
+    }
+
+    .college-logo-img {
+        height: 35px;
+    }
+
+    .ieee-logo-img {
+        height: 55px;
+    }
+
+    .ieee-banner h1 {
+        font-size: 1rem;
+    }
+
+    .section-title {
         font-size: 1.4rem;
+    }
+
+    .section-intro {
+        font-size: 0.85rem;
+    }
+
+    .event-day-heading {
+        font-size: 1.3rem;
+    }
+
+    .event-day-title {
+        font-size: 1.1rem;
+    }
+
+    .event-images-gallery img {
+        min-width: 200px;
+        height: 160px;
+    }
+
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+    }
+
+    .contact-card-icon {
+        font-size: 2.5rem;
+    }
+
+    .contact-card-title {
+        font-size: 1.15rem;
+    }
+
+    .mobile-nav-menu {
+        width: 250px;
+    }
+
+    .mobile-nav-menu .nav-page-link {
+        font-size: 1rem;
+        padding: 0.875rem 1.25rem;
     }
 }
